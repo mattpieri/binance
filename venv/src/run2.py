@@ -19,9 +19,9 @@ account = Account(balance=100)
 
 ticker = "NEOBTC"
 
-origin_jump =  5
-second_jump = 3
-drop = 2
+origin_jump =  .5
+second_jump = .25
+drop = .25
 
 
 def trading_algo(origin_jump, second_jump, drop, quantity, previous_price, new_price):
@@ -51,11 +51,12 @@ def trading_algo(origin_jump, second_jump, drop, quantity, previous_price, new_p
                 type=Client.ORDER_TYPE_MARKET,
                 quantity=.1)
     log = "%s SYMBOL: %s Percentage Change: %s %s" % (str(datetime.now()), ticker, pChange, new_price)
+    logging.info(log)
     print log
     return account.get_balance()
 
 import logging
-logging.basicConfig(filename='/var/log/example.log',level=logging.DEBUG,format='%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %(funcName)s: %(message)s', datefmt="%Y-%m-%d %H:%M:%S")
+logging.basicConfig(filename='/var/log/example2.log',level=logging.DEBUG,format='%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %(funcName)s: %(message)s', datefmt="%Y-%m-%d %H:%M:%S")
 
 
 
@@ -74,11 +75,11 @@ def main():
     	neo_data = [x for x in prices if x['symbol'] == 'NEOBTC'][0]
     	neo_price = float(neo_data['price'])
         if previous_price:
-            print trading_algo(origin_jump, second_jump, drop, .1, previous_price, neo_price)
+            print trading_algo(origin_jump, second_jump, drop, .05, previous_price, neo_price)
         previous_price = neo_price
         logging.info(pformat(account.get_positions))
 	logging.info("Sleeeping ...")
-        sleep(7200)
+        sleep(120)
 
 try:
 	main()
